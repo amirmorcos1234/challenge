@@ -33,4 +33,22 @@ class Order {
         status = EnumToString.fromString(orderStatus.values, json['status']),
         tags = List<String>.from(json['tags']),
         buyer = json['buyer'];
+
+  Map<String, dynamic> toJson() => {
+        'company': company,
+        'id': id,
+        'isActive': isActive,
+        'price': price,
+        'picture': picture,
+        'registered': registered,
+        'status': EnumToString.convertToString(status),
+        'tags': tags,
+        'buyer': buyer
+      };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return registered;
+  }
 }

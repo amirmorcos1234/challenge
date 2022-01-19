@@ -5,14 +5,15 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../providers/order_provider.dart';
 
-import '../models/Order.dart';
+import '../models/Graph.dart';
 
 class GraphScreen extends StatelessWidget {
   const GraphScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final orders = Provider.of<OrderProvider>(context).orders;
+    final ordersProvider = Provider.of<OrderProvider>(context);
+    final graphData = ordersProvider.getGraphData();
     return Scaffold(
         backgroundColor: Colors.indigo[50],
         appBar: AppBar(
@@ -34,13 +35,13 @@ class GraphScreen extends StatelessWidget {
               legend: Legend(isVisible: true),
               // Enable tooltip
               tooltipBehavior: TooltipBehavior(enable: true),
-              series: <ChartSeries<Order, String>>[
-                LineSeries<Order, String>(
-                    dataSource: orders,
-                    xValueMapper: (Order order, _) => DateFormat.MMMd()
-                        .format(DateTime.parse(order.registered))
+              series: <ChartSeries<Graph, String>>[
+                LineSeries<Graph, String>(
+                    dataSource: graphData,
+                    xValueMapper: (Graph graph, _) => DateFormat.MMMd()
+                        .format(DateTime.parse(graph.year))
                         .toString(),
-                    yValueMapper: (Order order, _) => orders.indexOf(order),
+                    yValueMapper: (Graph graph, _) => graph.count,
                     name: 'Orders',
                     // Enable data label
                     dataLabelSettings: const DataLabelSettings(isVisible: true))

@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  List<Widget> screens = [const OrdersOverviewScreen(), GraphScreen()];
+  List<Widget> screens = [const OrdersOverviewScreen(), const GraphScreen()];
 
   @override
   Widget build(BuildContext context) {

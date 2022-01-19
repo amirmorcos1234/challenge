@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 import '../models/Order.dart';
+import '../models/Graph.dart';
 
 class OrderProvider with ChangeNotifier {
   List<Order> allOrders = [];
@@ -28,6 +29,30 @@ class OrderProvider with ChangeNotifier {
       return (total / allOrders.length).toStringAsFixed(0);
     }
     return "0";
+  }
+
+  List<Graph> getGraphData() {
+    final sortedByDate = [...allOrders];
+
+    sortedByDate.sort((a, b) {
+      return a.registered.compareTo(b.registered);
+    });
+
+    final graphData =
+        sortedByDate.map((e) => e.registered.split("T")[0]).toSet().toList();
+
+    final graphList = graphData
+        .asMap()
+        .map((i, e) {
+          final orderList = allOrders
+              .where((element) => e == element.registered.split("T")[0])
+              .toList();
+          return MapEntry(i, Graph(count: orderList.length, year: e));
+        })
+        .values
+        .toList();
+
+    return graphList;
   }
 
   int getReturnedListNumber() {
